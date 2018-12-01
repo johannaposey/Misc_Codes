@@ -1,0 +1,409 @@
+---------------------------------------- Assignment 1 -------------------------------------------------------
+library(dslabs)
+data(heights)
+names(heights)
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+x <- heights$height
+length(unique(x))
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+x <- heights$height
+tab <- table(x)
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+tab <- table(heights$height)
+sum(tab == 1)
+------------------------------------------- Assignment 2 ------------------------------------------------------------------
+library(dslabs)
+data(heights)
+male <- heights$height[heights$sex=="Male"]
+female <- heights$height[heights$sex=="Female"]
+length(male)
+length(female)
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+male <- heights$height[heights$sex=="Male"]
+female <- heights$height[heights$sex=="Female"]
+female_percentiles <- quantile(female,c(.1,.3,.5,.7,.9))
+male_percentiles <- quantile(male,c(.1,.3,.5,.7,.9))
+df <- data.frame(female = female_percentiles,male = male_percentiles)
+print(df)
+-------------------------------------------- Assignment ? -----------------------------------------------------------------
+library(dslabs)
+data(heights)
+x <- heights$height[heights$sex == "Male"]
+mean(x>69 & x<=72)
+
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+x <- heights$height[heights$sex=="Male"]
+avg <- mean(x)
+stdev <- sd(x)
+pnorm(72,avg,stdev)-pnorm(69,avg,stdev)
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+x <- heights$height[heights$sex == "Male"]
+exact <- mean(x > 79 & x <= 81)
+approx <- pnorm(81,mean(x),sd(x))-pnorm(79,mean(x),sd(x))
+exact/approx
+-------------------------------------------------------------------------------------------------------------
+library(dslabs)
+data(heights)
+
+1-pnorm(84,69,3)
+-------------------------------------------------------------------------------------------------------------
+p <- 1-pnorm(84,69,3)
+round(p*10^9)
+
+
+-------------------------------------------------------------------------------------------------------------
+p <- 1-pnorm(84,69,3)
+N <- round(p*10^9)
+10/N
+-------------------------------------------------------------------------------------------------------------
+## Change the solution to previous answer
+p <- 1 - pnorm(80, 69, 3)
+N <- round(p * 10^9)
+150/N
+-------------------------------------------- Assessment ?+1 -----------------------------------------------------------------
+library(HistData)
+data(Galton)
+x <- Galton$child 
+mean(x)
+median(x)
+-------------------------------------------------------------------------------------------------------------
+library(HistData)
+data(Galton)
+x <- Galton$child
+sd(x)
+mad(x)
+-------------------------------------------------------------------------------------------------------------
+library(HistData)
+data(Galton)
+x <- Galton$child
+x_with_error <- x
+x_with_error[1] <- x_with_error[1]*10
+mean(x_with_error)-mean(x)
+-------------------------------------------------------------------------------------------------------------
+x_with_error <- x
+x_with_error[1] <- x_with_error[1]*10
+sd(x_with_error)-sd(x)
+-------------------------------------------------------------------------------------------------------------
+x_with_error <- x
+x_with_error[1] <- x_with_error[1]*10
+median(x_with_error)-median(x)
+-------------------------------------------------------------------------------------------------------------
+x_with_error <- x
+x_with_error[1] <- x_with_error[1]*10
+mad(x_with_error)-mad(x)
+-------------------------------------------------------------------------------------------------------------
+x <- Galton$child
+error_avg <- function(k){
+x[1] <- k
+mean(x)
+}
+print(error_avg(10000))
+print(error_avg(-10000))
+---------------------------------------- Assessment ?+2 ---------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(heights)
+data(murders)
+p <- ggplot(murders)
+class(p)
+-------------------------------------------------------------------------------------------------------------
+data(heights)
+# define ggplot object called p like in the previous exercise but using a pipe 
+p <- heights %>% ggplot()
+
+
+
+-------------------------------------------------------------------------------------------------------------
+## Fill in the blanks
+murders %>% ggplot(aes(x = population, y = total)) +
+  geom_point()
+-------------------------------------------------------------------------------------------------------------
+murders %>% ggplot(aes(total, population)) + geom_point()
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(murders)
+## edit the next line to add the label
+murders %>% ggplot(aes(population, total, label=abb)) +
+  geom_point() + geom_label()
+-------------------------------------------------------------------------------------------------------------
+murders %>% ggplot(aes(population, total,label= abb)) +
+  geom_label(color="blue")
+-------------------------------------------------------------------------------------------------------------
+## edit this code
+murders %>% ggplot(aes(population, total, label = abb, color = region)) +
+  geom_label()
+-------------------------------------------------------------------------------------------------------------
+p <- murders %>% ggplot(aes(population, total, label = abb, color = region)) + geom_label() 
+## add layers to p here
+p + scale_x_log10() + scale_y_log10()
+-------------------------------------------------------------------------------------------------------------
+p <- murders %>% ggplot(aes(population, total, label = abb, color = region)) +
+  geom_label()
+# add a layer to add title to the next line
+p + scale_x_log10() + 
+    scale_y_log10() +
+    ggtitle("Gun murder data")
+-------------------------------------------------------------------------------------------------------------
+# define p here
+p <- heights %>% ggplot(aes(height))
+-------------------------------------------------------------------------------------------------------------
+p <- heights %>% 
+  ggplot(aes(height))
+## add a layer to p
+p + geom_histogram()
+-------------------------------------------------------------------------------------------------------------
+p <- heights %>% 
+  ggplot(aes(height))
+## add the geom_histogram layer but with the requested argument
+p + geom_histogram(binwidth = 1)
+-------------------------------------------------------------------------------------------------------------
+## add the correct layer using +
+heights %>% 
+  ggplot(aes(height)) +geom_density()
+-------------------------------------------------------------------------------------------------------------
+## add the group argument then a layer with +
+heights %>% 
+  ggplot(aes(height, group = sex))
+  geom_density()
+-------------------------------------------------------------------------------------------------------------
+## edit the next line to use color instead of group then add a density layer
+heights %>% 
+  ggplot(aes(height, color = sex))+geom_density()
+-------------------------------------------------------------------------------------------------------------
+heights %>% ggplot(aes(height,fill = sex)) + geom_density(alpha = .2)
+----------------------------------------- Assment ?? --------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+## fill in what is needed
+tab <- NHANES %>% filter(AgeDecade == " 20-29" & Gender == "female")
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+## complete this line of code.
+ref <- NHANES %>% filter(AgeDecade == " 20-29" & Gender == "female") %>% summarize(average=mean(BPSysAve,na.rm=TRUE), standard_deviation = sd(BPSysAve,na.rm=TRUE)) 
+ref
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+## modify the code we wrote for previous exercise.
+ref_avg <- NHANES %>%
+  filter(AgeDecade == " 20-29" & Gender == "female") %>%
+  summarize(average = mean(BPSysAve, na.rm = TRUE)) %>% .$average
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+## complete the line
+NHANES %>%
+      filter(AgeDecade == " 20-29"  & Gender == "female") %>% summarize(min=min(BPSysAve,na.rm=TRUE),max=max(BPSysAve,na.rm=TRUE))
+
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+##complete the line with group_by and summarize
+NHANES %>%
+      filter(Gender == "female") %>% group_by(AgeDecade) %>% summarize(average=mean(BPSysAve,na.rm=TRUE),standard_deviation=sd(BPSysAve,na.rm=TRUE))
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+NHANES %>% filter(Gender=="male") %>% group_by(AgeDecade) %>% summarize(average=mean(BPSysAve,na.rm=TRUE),standard_deviation=sd(BPSysAve,na.rm=TRUE))
+-------------------------------------------------------------------------------------------------------------
+library(NHANES)
+data(NHANES)
+NHANES %>% group_by(AgeDecade,Gender) %>% summarize(average=mean(BPSysAve,na.rm=TRUE),standard_deviation=sd(BPSysAve,na.rm=TRUE))
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(NHANES)
+data(NHANES)
+NHANES %>% filter(AgeDecade == " 40-49", Gender == "male") %>% group_by(Race1) %>% summarize(average=mean(BPSysAve,na.rm=TRUE),standard_deviation=sd(BPSysAve,na.rm=TRUE)) %>% arrange(average)
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+## fill out the missing parts in filter and aes
+gapminder %>% filter(continent=="Africa" & year == "2012") %>%
+  ggplot(aes(y=life_expectancy ,x=fertility )) +
+  geom_point()
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+gapminder %>% filter(continent=="Africa",year=="2012") %>% ggplot(aes(y=life_expectancy,x=fertility,color=region)) + geom_point()
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(dslabs)
+data(gapminder)
+df <- gapminder %>% filter(continent=="Africa"& year=="2012" & fertility<=3 & life_expectancy>=70) %>% select(country,region)
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(dslabs)
+data(gapminder)
+tab <- gapminder %>% filter(year%in%seq(1960,2010,1) & country %in% c("United States","Vietnam"))
+-------------------------------------------------------------------------------------------------------------
+p <- ggplot(tab,aes(x=year,y=life_expectancy, color=country)) + geom_line()# code for your plot goes here - the data table is stored as `tab`
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+gapminder %>% filter(year%in%seq(1960,2010,1) & country=="Cambodia") %>% ggplot(aes(x=year,y=life_expectancy)) + geom_line()
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(dslabs)
+data(gapminder)
+daydollars <- gapminder %>% mutate(dollars_per_day=gdp/population/365) %>% filter(continent=="Africa" & year==2010 & !is.na(dollars_per_day))# write your code here
+-------------------------------------------------------------------------------------------------------------
+daydollars %>% ggplot(aes(dollars_per_day)) + geom_density() + scale_x_continuous(trans="log2")# your code here
+
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+gapminder %>% mutate(dollars_per_day=gdp/population/365) %>% filter(continent=="Africa" & year%in%c(1970,2010) & !is.na(dollars_per_day)) %>% ggplot(aes(dollars_per_day,group=year)) + geom_density() + scale_x_continuous(trans="log2") + facet_grid(.~year)
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+gapminder %>% mutate(dollars_per_day=gdp/population/365) %>% filter(continent=="Africa" & year%in%c(1970,2010) & !is.na(dollars_per_day)) %>% ggplot(aes(dollars_per_day, fill=region)) + geom_density(bw=0.5,position="stack") + scale_x_continuous(trans="log2") + facet_grid(.~year)
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+gapminder_Africa_2010 <- gapminder %>% mutate(dollars_per_day=gdp/population/365) %>% filter(year==2010 & continent=="Africa" & !is.na(dollars_per_day)) # create the mutated dataset
+
+# now make the scatter plot
+gapminder_Africa_2010 %>% ggplot(aes(x=dollars_per_day,y=infant_mortality,color=region)) + geom_point()
+-------------------------------------------------------------------------------------------------------------
+gapminder_Africa_2010 %>% ggplot(aes(x=dollars_per_day,y=infant_mortality,color=region)) + geom_point() + scale_x_continuous(trans="log2") # your plotting code here
+-------------------------------------------------------------------------------------------------------------
+gapminder_Africa_2010 %>% ggplot(aes(x=dollars_per_day,y=infant_mortality,color=region,label=country)) + geom_point() + scale_x_continuous(trans="log2") +geom_text()# your plotting code here
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(gapminder)
+gapminder %>% mutate(dollars_per_day=gdp/population/365) %>% filter(year%in%c(1970,2010) & continent=="Africa" & !is.na(dollars_per_day) & !is.na(infant_mortality)) %>% ggplot(aes(x=dollars_per_day,y=infant_mortality,color=region,label=country)) + geom_point() + geom_text() + scale_x_continuous(trans="log2") + facet_grid(year~.)
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+dat <- us_contagious_diseases %>%
+filter(year == 1967 & disease=="Measles" & !is.na(population)) %>% mutate(rate = count / population * 10000 * 52 / weeks_reporting)
+state <- dat$state %>% reorder(rate)
+rate <- dat$count/(dat$population/10000)*(52/dat$weeks_reporting)
+print(state)
+print(levels(state))
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data(us_contagious_diseases)
+dat <- us_contagious_diseases %>% filter(year == 1967 & disease=="Measles" & count>0 & !is.na(population)) %>%
+  mutate(rate = count / population * 10000 * 52 / weeks_reporting, state=reorder(state,rate))
+dat %>% ggplot(aes(state, rate)) +
+  geom_bar(stat="identity") +
+  coord_flip()
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+data("murders")
+murders %>% mutate(rate = total/population*100000, region=reorder(region,rate,FUN=median)) %>% ggplot(aes(x=region,y=rate)) + geom_boxplot() + geom_point()
+
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(dslabs)
+data(us_contagious_diseases)
+
+the_disease = "Smallpox"
+dat <- us_contagious_diseases %>% 
+   filter(!state%in%c("Hawaii","Alaska") & disease == the_disease) %>% 
+   mutate(rate = count / population * 10000) %>% 
+   mutate(state = reorder(state, rate)) %>% filter(weeks_reporting>=10)
+
+dat %>% ggplot(aes(year, state, fill = rate)) + 
+  geom_tile(color = "grey50") + 
+  scale_x_continuous(expand=c(0,0)) + 
+  scale_fill_gradientn(colors = brewer.pal(9, "Reds"), trans = "sqrt") + 
+  theme_minimal() + 
+  theme(panel.grid = element_blank()) + 
+  ggtitle(the_disease) + 
+  ylab("") + 
+  xlab("")
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+library(RColorBrewer)
+data(us_contagious_diseases)
+
+the_disease = "Smallpox"
+dat <- us_contagious_diseases %>%
+   filter(!state%in%c("Hawaii","Alaska") & disease == the_disease) %>%
+   mutate(rate = count / population * 10000) %>%
+   mutate(state = reorder(state, rate)) %>% filter(weeks_reporting >= 10)
+
+avg <- us_contagious_diseases %>%
+  filter(disease==the_disease) %>% group_by(year) %>%
+  summarize(us_rate = sum(count, na.rm=TRUE)/sum(population, na.rm=TRUE)*10000)
+
+dat %>% ggplot() +
+  geom_line(aes(year, rate, group = state),  color = "grey50", 
+            show.legend = FALSE, alpha = 0.2, size = 1) +
+  geom_line(mapping = aes(year, us_rate),  data = avg, size = 1, color = "black") +
+  scale_y_continuous(trans = "sqrt", breaks = c(5,25,125,300)) + 
+  ggtitle("Cases per 10,000 by state") + 
+  xlab("") + 
+  ylab("") +
+  geom_text(data = data.frame(x=1955, y=50), mapping = aes(x, y, label="US average"), color="black") + 
+  geom_vline(xintercept=1963, col = "blue")
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+library(RColorBrewer)
+data(us_contagious_diseases)
+
+us_contagious_diseases %>% filter(state=="California" & weeks_reporting>=10) %>% 
+  group_by(year, disease) %>%
+  summarize(rate = sum(count)/sum(population)*10000) %>%
+  ggplot(aes(year, rate, color=disease)) + 
+  geom_line()
+-------------------------------------------------------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(dslabs)
+library(RColorBrewer)
+data(us_contagious_diseases)
+dat <- us_contagious_diseases %>% filter(!is.na(population)) %>% group_by(year,disease) %>% summarize(rate=sum(count)/sum(population)*10^4) %>% ggplot(aes(x=year,y=rate,color=disease)) + geom_line()
+
+-------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------
